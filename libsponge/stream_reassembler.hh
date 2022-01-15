@@ -5,16 +5,19 @@
 
 #include <cstdint>
 #include <string>
+#include <unordered_map>
 
 //! \brief A class that assembles a series of excerpts from a byte stream (possibly out of order,
 //! possibly overlapping) into an in-order byte stream.
 class StreamReassembler {
   private:
     // Your code here -- add private members as necessary.
-
     ByteStream _output;  //!< The reassembled in-order byte stream
     size_t _capacity;    //!< The maximum number of bytes
-
+    size_t _head = 0;    //_output在sequense中的index
+    size_t _unreassembled_bytes = 0;
+    bool _eof = false;
+    std::unordered_map<size_t,char> _hash = {}; //记录(index,char)
   public:
     //! \brief Construct a `StreamReassembler` that will store up to `capacity` bytes.
     //! \note This capacity limits both the bytes that have been reassembled,
@@ -48,6 +51,8 @@ class StreamReassembler {
     //! \brief Is the internal state empty (other than the output stream)?
     //! \returns `true` if no substrings are waiting to be assembled
     bool empty() const;
+
+    
 };
 
 #endif  // SPONGE_LIBSPONGE_STREAM_REASSEMBLER_HH
