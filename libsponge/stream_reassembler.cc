@@ -30,7 +30,7 @@ void StreamReassembler::push_substring(const string &data, const size_t index, c
     if(head < _head){
         head = _head;
     }
-    //此时[head,rear]为可以填充的部分，因为传输可能确实所以可能不连续
+    //此时[head,rear)为可以填充的部分，因为传输可能确实所以可能不连续
     for(size_t i = head;i<rear;i++){
         if(_hash.count(i)) continue; //segment中有重复发送的信息
         _hash.insert({i,data[i-index]});

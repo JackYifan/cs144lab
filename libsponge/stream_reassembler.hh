@@ -53,6 +53,7 @@ class StreamReassembler {
     bool empty() const;
 
     
+    size_t get_head_index(){return _head;}
 };
 
 #endif  // SPONGE_LIBSPONGE_STREAM_REASSEMBLER_HH
