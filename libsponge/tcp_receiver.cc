@@ -11,7 +11,7 @@ void DUMMY_CODE(Targs &&... /* unused */) {}
 using namespace std;
 
 bool TCPReceiver::segment_received(const TCPSegment &seg) {
-    size_t abs_seq = 0; // also checkpoint
+    static size_t abs_seq = 0; // also checkpoint
     // fetch seqno from head
     abs_seq = unwrap(WrappingInt32(seg.header().seqno.raw_value()),WrappingInt32(_isn),abs_seq);
     size_t len = seg.length_in_sequence_space(); // payload().str().size() + (header().syn ? 1 : 0) + (header().fin ? 1 : 0)
@@ -23,7 +23,7 @@ bool TCPReceiver::segment_received(const TCPSegment &seg) {
         }
         _syn = true;
         _head++;
-        abs_seq++;
+        abs_seq = 1;
         _isn = seg.header().seqno.raw_value(); //Initial Sequence Number
         len--; // 因为len包含data+(has_SYN)+(has_FIN)，所以要-1得到data的长度
         if(len == 0){
